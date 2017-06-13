@@ -1,0 +1,6 @@
+install.packages('plyr')
+library(plyr)
+x<-count(dataframe,'from')
+y<-count(dataframe,'to')
+save(x,file = "fromFrequencyTable.RData")
+save(y,file = "toFrequencyTable.RData")
