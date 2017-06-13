@@ -1,3 +1,4 @@
+library(sqldf)
 maildir <-
   "C:/Users/Liang/Desktop/BigData/enron_mail_20150507/maildir"
 files <- list.files(path = maildir,
@@ -6,41 +7,43 @@ files <- list.files(path = maildir,
 data <- lapply(files, function(path) {
   print(path)
   lines <- readLines(path)
+  #extract the message-ID
+  id <- gsub("Message-ID: ", "", lines[grepl("^Message-ID: .*", lines)][1])
   #extract the sender
-  from <- gsub("From: ", "", lines[grepl("^From: .*", lines)][1])
+  sender <- gsub("From: ", "", lines[grepl("^From: .*", lines)][1])
   #extract the receiver(s)
   start <- grep("^To:.*", lines)[1]
   end <- grep("^Subject:.*", lines)[1] - 1
-  to <- character()
+  receiver <- character()
   if (is.na(start)) {
-    to <- NA
+    receiver <- NA
   } else{
     if (start > end) {
-      to <- NA
+      receiver <- NA
     } else{
-      to <- gsub("\t", "", lines[start:end])
-      to <- gsub("To: ", "", to)
-      to <- paste(to, collapse = "")
+      receiver <- gsub("\t", "", lines[start:end])
+      receiver <- gsub("To: ", "", receiver)
+      receiver <- paste(receiver, collapse = "")
     }
   }
   #extract the cc(s)
-  start <- grep("^Cc:.*", lines)[1]
-  end <- grep("^Mime-Version:.*", lines)[1] - 1
-  cc <- character()
-  if (is.na(start)) {
-    cc <- NA
-  } else {
-    if (start > end) {
-      cc <- NA
-    } else{
-      cc <- gsub("\t", "", lines[start:end])
-      cc <- gsub("Cc: ", "", cc)
-      cc <- paste(cc, collapse = "")
-    }
-  }
-  return(c(from, to, cc, path))
+  # start <- grep("^Cc:.*", lines)[1]
+  # end <- grep("^Mime-Version:.*", lines)[1] - 1
+  # cc <- character()
+  # if (is.na(start)) {
+  #   cc <- NA
+  # } else {
+  #   if (start > end) {
+  #     cc <- NA
+  #   } else{
+  #     cc <- gsub("\t", "", lines[start:end])
+  #     cc <- gsub("Cc: ", "", cc)
+  #     cc <- paste(cc, collapse = "")
+  #   }
+  # }
+  return(c(id, sender, receiver))
 })
-dataframe <- data.frame(from = sapply(data, "[", 1), to = sapply(data, "[", 2), cc = sapply(data, "[", 3), path = sapply(data, "[", 4))
-rm(data)
-rm(files)
-rm(maildir)
+dataframe <- data.frame(id = sapply(data, "[", 1), sender = sapply(data, "[", 2), receiver = sapply(data, "[", 3))
+dataframe <- na.omit(dataframe)
+newdf <- sqldf("select sender, receiver from dataframe group by id")
+save(newdf, file = "email_data.RData")
