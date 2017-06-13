@@ -1,5 +1,5 @@
 library(plyr)
-library(stringr)
+
 load("email_data.RData")
 #count the frequency of senders and select those records which are above mean
 senderfreq <- count(newdf$sender)
