@@ -6,7 +6,7 @@ senderfreq <- count(newdf$sender)
 names(senderfreq) <- c("sender", "freq")
 senderfreq2 <- senderfreq[which(senderfreq$freq > mean(senderfreq$freq)),]
 #split the receivers and add to new rows according to the senders
-s <- strsplit(as.character((newdf$receiver)), split = ",")
+s <- strsplit(as.character((newdf$receiver)), split = ", ")
 newdf2 <- data.frame(sender = rep(newdf$sender, sapply(s, length)), receiver = unlist(s))
 #count the frequency of receivers and select those records which are above mean
 receiverfreq <- count(newdf2$receiver)
