@@ -8,5 +8,5 @@ wei<-E(newGraph)$weight
 mean(wei)
 newGraph <-delete.edges(newGraph, which(E(newGraph)$weight<=23))
 finalGraph<- delete.vertices(newGraph,which(degree(newGraph)<1))
-plot(g)
+plot(finalGraph)
 
