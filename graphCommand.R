@@ -8,5 +8,5 @@ wei<-E(newGraph)$weight
 ave<-mean(wei)
 newGraph <-delete.edges(newGraph, which(E(newGraph)$weight<=ave))
 finalGraph<- delete.vertices(newGraph,which(degree(newGraph)<1))
-plot(finalGraph)
-
+myplot<-plot(finalGraph)
+save(myplot, file = "~/project1/Project3/myplot.RData")
