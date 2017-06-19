@@ -8,7 +8,7 @@ shortest.paths(g)
 get.shortest.paths(g,5)
 
 # 2.generate a random graph with a fix number of vertices and every possible edge is created with the same constant probability
-g<-smple_gnp(10, 5/10) %du% sample_gnp(9, 5/9)
+g<-sample_gnp(10, 5/10) %du% sample_gnp(9, 5/9)
 
 # 3.detect the community structure in networks and lable the vertices with unique labels
 g <- add_edges(g, c(1, 12))
