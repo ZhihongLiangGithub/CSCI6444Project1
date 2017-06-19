@@ -14,4 +14,4 @@ plot(murg, layout = l)
 print(graph.bfs(rg, V(rg)[1], father = T, pred = T, succ = T))
 
 # 3. DFS search of a graph -- graph.dfs()
-print(graph.dfs(rg, V(rg)[1], father = T, pred = T, succ = T))
+print(graph.dfs(rg, V(rg)[1], father = T))
