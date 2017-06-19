@@ -18,7 +18,7 @@ head(sort(closeness(finalGraph),decreasing = TRUE))
 #betweenness centrality
 head(sort(betweenness(finalGraph),decreasing = TRUE))
 #power centrality
-head(power_centrality(finalGraph,loops=FALSE,exponent = 0.5, rescale = 1, tol = 1e-07, sparse = TRUE))
-#ego.(IDK WHAT IM DOING WITH 1:3 BUT IT'S SUPPOSED TO BE ORDER. PLZ LOOK INTO ORDER)
-head(ego(finalGraph,1:3))
-    ``
+power<-power_centrality(finalGraph,loops=FALSE,exponent = 0.5, rescale = 1, tol = 1e-07, sparse = TRUE)
+head(sort(power,decreasing = TRUE))
+ego_graph3 <-make_ego_graph(graph = finalGraph, order =1, node = V(finalGraph)$name == "david.forster@enron.com", mode = c("all","out","in"), mindist=0)
+plot(ego_graph3[[1]])
